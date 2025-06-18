@@ -1,0 +1,14 @@
+### GET
+GET http://localhost:8080/inventario-local/1
+
+
+### POST
+POST http://localhost:8080/inventario-local
+Content-Type: application/json
+
+{
+  "sucursalId": 1,
+  "automotorId": 1,
+  "cantidad": 3,
+  "tiempoEntrega": 2
+}
