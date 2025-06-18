@@ -77,7 +77,7 @@ public class VentaServicio implements IVentaServicio {
         try {
              sucursal = sucursalClient.getSucursal(sucursalId);
         } catch (FeignException.NotFound e) {
-            throw new AutomotorNoEncontradoException(sucursalId);
+            throw new SucursalNoEncontradaException(sucursalId);
         }
 //ACA HAY ALGUNAS VALIDACIONES VIEJAS
 //        //fechas
