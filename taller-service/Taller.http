@@ -11,9 +11,6 @@ Content-Type: application/json
   "sucursalId": 1,
   "clienteId": 1,
   "fechaRecepcion": "2025-06-18",
-  "fechaEntrega": "2025-06-20",
   "descripcion": "Cambio de aceite",
-  "hayGarantia": "True",
-  "kilometros": 20000,
-  "costo": 255000
+  "kilometros": 2500
 }

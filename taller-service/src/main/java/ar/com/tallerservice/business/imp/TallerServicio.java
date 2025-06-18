@@ -5,10 +5,7 @@ import ar.com.tallerservice.dto.TallerDTO;
 import ar.com.tallerservice.dto.integrations.AutomotorDTO;
 import ar.com.tallerservice.dto.integrations.ClienteDTO;
 import ar.com.tallerservice.dto.integrations.SucursalDTO;
-import ar.com.tallerservice.exceptions.AutomotorNoEncontradoException;
-import ar.com.tallerservice.exceptions.ClienteNoEncontradoException;
-import ar.com.tallerservice.exceptions.SucursalNoEncontradaException;
-import ar.com.tallerservice.exceptions.TipoUsuarioIncorrectoException;
+import ar.com.tallerservice.exceptions.*;
 import ar.com.tallerservice.integrations.resClient.IAutomotorClient;
 import ar.com.tallerservice.integrations.resClient.ISucursalClient;
 import ar.com.tallerservice.integrations.resClient.IUsuarioClient;
@@ -51,7 +48,27 @@ public class TallerServicio implements ITallerServicio {
         BigDecimal costo;
         Boolean hayGarantia;
 
-        
+        if (automotorId == null) {
+            throw new DatosTallerException("El automotor es obligatorio.");
+        }
+        if (clienteId == null) {
+            throw new DatosTallerException("El cliente es obligatorio.");
+        }
+        if (sucursalId == null) {
+            throw new DatosTallerException("La sucursal es obligatorio.");
+        }
+        if (descripcion == null) {
+            throw new DatosTallerException("La descripcion es obligatorio.");
+        }
+
+        //valido que no exista ya una reserva de taller
+        Taller tallerDuplicado = tallerDAO.findTallerByClienteIdAndAutomotorIdAndSucursalId(clienteId, automotorId, sucursalId);
+        if (tallerDuplicado != null) {
+            throw new TallerDuplicadoException();
+        }
+
+
+
         //validaciones
         try {
             cliente = usuarioClient.getCliente(clienteId);
@@ -71,6 +88,10 @@ public class TallerServicio implements ITallerServicio {
             sucursal = sucursalClient.getSucursal(sucursalId);
         } catch (FeignException.NotFound e) {
             throw new SucursalNoEncontradaException(sucursalId);
+        }
+
+        if (kilometros == null || kilometros <= 0) {
+            throw new KilometrosException();
         }
 
         //compruebo si hay garantia

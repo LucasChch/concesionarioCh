@@ -42,22 +42,22 @@ Content-Type: application/json
 {
   "sucursalId": 1,
   "automotorId": 1,
-  "cantidad": 3,
+  "cantidad": 0,
   "tiempoEntrega": 2
 }
 
 ###INVENTARIO CENTRAL
 ### GET
-GET http://localhost:8080/inventario-central/stock?automotorId=4
+GET http://localhost:8080/inventario-central/stock?automotorId=1
 
 ### POST
 POST http://localhost:8080/inventario-central
 Content-Type: application/json
 
 {
-  "automotorId": 4,
+  "automotorId": 1,
   "cantidad": 3,
-  "tiempoEntrega": 2
+  "tiempoEntrega": 10
 }
 
 

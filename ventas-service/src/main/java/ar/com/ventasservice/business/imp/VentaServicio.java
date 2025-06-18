@@ -79,25 +79,6 @@ public class VentaServicio implements IVentaServicio {
         } catch (FeignException.NotFound e) {
             throw new SucursalNoEncontradaException(sucursalId);
         }
-//ACA HAY ALGUNAS VALIDACIONES VIEJAS
-//        //fechas
-//        if (fechaOperacion == null || fechaEntrega == null) {
-//            throw new IllegalArgumentException("Las fechas no pueden ser nulas.");
-//        }
-//
-//        if (fechaOperacion.isAfter(fechaEntrega)) {
-//            throw new IllegalArgumentException("La fecha de operación no puede ser posterior a la fecha de entrega.");
-//        }
-//
-//        if (fechaOperacion.isBefore(LocalDate.now().minusDays(1))) {
-//            throw new IllegalArgumentException("La fecha de operación no puede estar en el pasado.");
-//        }
-//
-//        //monto
-//        if (monto == null || monto.compareTo(BigDecimal.ZERO) <= 0) {
-//            throw new IllegalArgumentException("El monto debe ser mayor a cero.");
-//        }
-
 
         //control de stock
         try {
