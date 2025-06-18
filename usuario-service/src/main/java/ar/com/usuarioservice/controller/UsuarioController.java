@@ -16,7 +16,7 @@ public class UsuarioController {
     //CLIENTE
     @GetMapping("/cliente/{id}")
     public ClienteDTO getCliente(@PathVariable Long id) {
-        return usuarioService.buscarCliente(1L);
+        return usuarioService.buscarCliente(id);
     }
     @PostMapping("/cliente")
     public ClienteDTO createCliente(@RequestBody ClienteDTO cliente) {
@@ -35,7 +35,7 @@ public class UsuarioController {
     //EMPLEADOS
     @GetMapping("/empleado/{id}")
     public EmpleadoDTO getEmpleado(@PathVariable Long id) {
-        return usuarioService.buscarEmpleado(1L);
+        return usuarioService.buscarEmpleado(id);
     }
     @PostMapping("/empleado")
     public EmpleadoDTO createEmpleado(@RequestBody EmpleadoDTO empleado) {

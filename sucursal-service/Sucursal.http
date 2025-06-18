@@ -1,0 +1,14 @@
+### GET
+GET http://localhost:8081/sucursal/1
+
+
+### POST
+POST http://localhost:8081/sucursal
+Content-Type: application/json
+
+{
+  "nombre": "SucursalTITO",
+  "direccion": "San Isidro",
+  "pais": "Argentina",
+  "fechaApertura": "2020-01-08"
+}
