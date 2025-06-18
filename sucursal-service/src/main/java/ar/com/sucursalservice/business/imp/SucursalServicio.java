@@ -2,6 +2,7 @@ package ar.com.sucursalservice.business.imp;
 
 import ar.com.sucursalservice.business.ISucursalServicio;
 import ar.com.sucursalservice.dto.SucursalDTO;
+import ar.com.sucursalservice.exception.DatosSucursalInvalidosException;
 import ar.com.sucursalservice.exception.SucursalNoEncontradaException;
 import ar.com.sucursalservice.mapper.SucursalMapper;
 import ar.com.sucursalservice.models.Sucursal;
@@ -20,6 +21,24 @@ public class SucursalServicio implements ISucursalServicio {
     @Override
     public SucursalDTO crearSucursal(String nombre, String direccion, String pais, LocalDate fechaApertura) {
         Sucursal sucursal = new Sucursal(nombre, direccion, pais, fechaApertura);
+
+        //validaciones
+        if (nombre == null || nombre.isBlank()) {
+            throw new DatosSucursalInvalidosException("El nombre de la sucursal es obligatorio.");
+        }
+
+        if (direccion == null || direccion.isBlank()) {
+            throw new DatosSucursalInvalidosException("La dirección de la sucursal es obligatoria.");
+        }
+
+        if (pais == null || pais.isBlank()) {
+            throw new DatosSucursalInvalidosException("El país es obligatorio.");
+        }
+
+        if (fechaApertura == null || fechaApertura.isAfter(LocalDate.now())) {
+            throw new DatosSucursalInvalidosException("La fecha de apertura no puede ser nula ni futura.");
+        }
+
         sucursalDAO.save(sucursal);
 
         SucursalDTO sucursalDTO = SucursalMapper.toDTO(sucursal);
