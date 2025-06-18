@@ -1,0 +1,15 @@
+### GET
+GET http://localhost:8083/empleado/1
+
+### POST
+POST http://localhost:8083/empleado
+Content-Type: application/json
+
+{
+  "nombre": "Dalinar",
+  "email": "dalinar@gmail.com",
+  "direccion": "Kholinar",
+  "dni": "1234567",
+  "puesto": "Vendedor",
+  "concessionId": 1
+}
