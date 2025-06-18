@@ -1,7 +1,7 @@
 package ar.com.tallerservice.integrations.resClient;
 
-import ar.com.ventasservice.dto.integrations.ClienteDTO;
-import ar.com.ventasservice.dto.integrations.EmpleadoDTO;
+
+import ar.com.tallerservice.dto.integrations.ClienteDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +13,4 @@ public interface IUsuarioClient {
     @RequestMapping(method = RequestMethod.GET, value = "/cliente/{id}")
     public ClienteDTO getCliente(@PathVariable("id") Long id);
 
-    @RequestMapping(method = RequestMethod.GET, value = "/empleado/{id}")
-    public EmpleadoDTO getEmpleado(@PathVariable("id") Long id);
 }

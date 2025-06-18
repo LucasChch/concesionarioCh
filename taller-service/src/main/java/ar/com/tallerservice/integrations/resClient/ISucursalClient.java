@@ -1,6 +1,6 @@
 package ar.com.tallerservice.integrations.resClient;
 
-import ar.com.ventasservice.dto.integrations.SucursalDTO;
+import ar.com.tallerservice.dto.integrations.SucursalDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;

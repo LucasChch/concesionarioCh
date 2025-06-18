@@ -23,12 +23,8 @@ public class TallerController {
                 taller.getAutomotorId(),
                 taller.getClienteId(),
                 taller.getSucursalId(),
-                taller.getFechaRecepcion(),
-                taller.getFechaEntrega(),
                 taller.getKilometros(),
-                taller.isHayGarantia(),
-                taller.getDescripcion(),
-                taller.getCosto()
+                taller.getDescripcion()
         );
 
         return tallerCreado;
