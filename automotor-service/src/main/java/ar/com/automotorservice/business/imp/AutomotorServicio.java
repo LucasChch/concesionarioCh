@@ -2,6 +2,7 @@ package ar.com.automotorservice.business.imp;
 
 import ar.com.automotorservice.business.IAutomotorServicio;
 import ar.com.automotorservice.dto.AutomotorDTO;
+import ar.com.automotorservice.exception.AutomotorNoEncontradoException;
 import ar.com.automotorservice.mapper.AutomotorMapper;
 import ar.com.automotorservice.model.Automotor;
 import ar.com.automotorservice.repository.IAutomotorDAO;
@@ -28,7 +29,7 @@ public class AutomotorServicio implements IAutomotorServicio {
 
     @Override
     public AutomotorDTO buscarAutomotor(Long automotorId) {
-        Automotor automotor = automotorDAO.findById(automotorId).orElseThrow();
+        Automotor automotor = automotorDAO.findById(automotorId).orElseThrow(() -> new AutomotorNoEncontradoException(automotorId));
 
         AutomotorDTO automotorDTO = AutomotorMapper.toDTO(automotor);
 

@@ -15,6 +15,12 @@ public class InventarioCentralController {
     public InventarioCentralDTO getInventarioCentral(@PathVariable Long id) {
         return inventarioCentralServicio.buscarInventarioCentralPorId(id);
     }
+
+    @GetMapping("/stock")
+    public InventarioCentralDTO buscarStockEnInvetarioCentral(@RequestParam Long automotorId){
+        return inventarioCentralServicio.buscarStockEnInvetarioCentral(automotorId);
+    }
+
     @PostMapping()
     public InventarioCentralDTO createInventarioCentral(@RequestBody InventarioCentralDTO inventarioCentral) {
 
@@ -26,4 +32,10 @@ public class InventarioCentralController {
 
         return inventarioCentralCreado;
     }
+
+    @PutMapping("/stock")
+    public void removeOneFromInventarioCentralStock(@RequestParam Long automotorId) {
+        inventarioCentralServicio.quitarUnoDelStock(automotorId);
+    }
+
 }

@@ -2,6 +2,7 @@ package ar.com.sucursalservice.business.imp;
 
 import ar.com.sucursalservice.business.ISucursalServicio;
 import ar.com.sucursalservice.dto.SucursalDTO;
+import ar.com.sucursalservice.exception.SucursalNoEncontradaException;
 import ar.com.sucursalservice.mapper.SucursalMapper;
 import ar.com.sucursalservice.models.Sucursal;
 import ar.com.sucursalservice.repository.ISucursalDAO;
@@ -28,7 +29,7 @@ public class SucursalServicio implements ISucursalServicio {
 
     @Override
     public SucursalDTO buscarSucursal(Long sucursalId) {
-        Sucursal sucursal = sucursalDAO.findById(sucursalId).orElseThrow();
+        Sucursal sucursal = sucursalDAO.findById(sucursalId).orElseThrow(() -> new SucursalNoEncontradaException(sucursalId));
 
         SucursalDTO sucursalDTO = SucursalMapper.toDTO(sucursal);
 

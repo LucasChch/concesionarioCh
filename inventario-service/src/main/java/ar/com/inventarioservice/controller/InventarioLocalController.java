@@ -15,6 +15,12 @@ public class InventarioLocalController {
     public InventarioLocalDTO getInventarioLocal(@PathVariable Long id) {
         return inventarioLocalServicio.buscarInventarioLocalPorId(id);
     }
+
+    @GetMapping("/stock")
+    public InventarioLocalDTO buscarStockEnInvetarioLocal(@RequestParam Long sucursalId, @RequestParam Long automotorId){
+        return inventarioLocalServicio.buscarStockEnInvetarioLocal(sucursalId, automotorId);
+    }
+
     @PostMapping()
     public InventarioLocalDTO createInventarioLocal(@RequestBody InventarioLocalDTO inventarioLocal) {
 
@@ -26,5 +32,10 @@ public class InventarioLocalController {
         );
 
         return inventarioLocalCreado;
+    }
+
+    @PutMapping("/stock")
+    public void removeOneFromInventarioLocalStock(@RequestParam Long sucursalId, @RequestParam Long automotorId) {
+        inventarioLocalServicio.quitarUnoDelStock(sucursalId, automotorId);
     }
 }

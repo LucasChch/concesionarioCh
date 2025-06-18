@@ -3,6 +3,9 @@ package ar.com.usuarioservice.business.imp;
 import ar.com.usuarioservice.business.IUsuarioServicio;
 import ar.com.usuarioservice.dto.ClienteDTO;
 import ar.com.usuarioservice.dto.EmpleadoDTO;
+import ar.com.usuarioservice.exception.ClienteNoEncontradoException;
+import ar.com.usuarioservice.exception.EmpleadoNoEncontradoException;
+import ar.com.usuarioservice.exception.TipoUsuarioIncorrectoException;
 import ar.com.usuarioservice.mapper.ClienteMapper;
 import ar.com.usuarioservice.mapper.EmpleadoMapper;
 import ar.com.usuarioservice.models.Cliente;
@@ -32,10 +35,10 @@ public class UsuarioServicio implements IUsuarioServicio {
 
     @Override
     public ClienteDTO buscarCliente(Long clienteId) {
-        Usuario usuario = usuarioDAO.findById(clienteId).orElseThrow();
+        Usuario usuario = usuarioDAO.findById(clienteId).orElseThrow(() -> new ClienteNoEncontradoException(clienteId));
 
         if (!(usuario instanceof Cliente cliente)) {
-            throw new RuntimeException("El ID no corresponde a un cliente");
+            throw new TipoUsuarioIncorrectoException(clienteId);
         }
 
         ClienteDTO clienteDTO = ClienteMapper.toDTO(cliente);
@@ -56,10 +59,10 @@ public class UsuarioServicio implements IUsuarioServicio {
 
     @Override
     public EmpleadoDTO buscarEmpleado(Long empleadoId) {
-        Usuario usuario = usuarioDAO.findById(empleadoId).orElseThrow();
+        Usuario usuario = usuarioDAO.findById(empleadoId).orElseThrow(() -> new EmpleadoNoEncontradoException(empleadoId));
 
         if (!(usuario instanceof Empleado empleado)) {
-            throw new RuntimeException("El ID no corresponde a un empleado");
+            throw new TipoUsuarioIncorrectoException(empleadoId);
         }
 
         EmpleadoDTO empleadoDTO = EmpleadoMapper.toDTO(empleado);
