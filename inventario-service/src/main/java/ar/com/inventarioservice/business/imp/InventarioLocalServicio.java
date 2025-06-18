@@ -8,14 +8,11 @@ import ar.com.inventarioservice.exception.*;
 import ar.com.inventarioservice.integrations.restClient.IAutomotorClient;
 import ar.com.inventarioservice.integrations.restClient.ISucursalClient;
 import ar.com.inventarioservice.mapper.InventarioLocalMapper;
-import ar.com.inventarioservice.model.InventarioCentral;
 import ar.com.inventarioservice.model.InventarioLocal;
 import ar.com.inventarioservice.repository.IInventarioLocalDAO;
 import feign.FeignException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDate;
 
 @Service
 public class InventarioLocalServicio implements IInventarioLocalServicio {
@@ -32,6 +29,20 @@ public class InventarioLocalServicio implements IInventarioLocalServicio {
     @Override
     public InventarioLocalDTO crearInventarioLocal(Long sucursalId, Long automotorId, int cantidad, int tiempoEntrega) {
 
+        if(sucursalId == null){
+            throw new DatosInventarioLocalInvalidosException("La sucursal es obligatoria");
+        }
+        if(automotorId == null){
+            throw new DatosInventarioLocalInvalidosException("El automotor es obligatorio");
+        }
+        if(cantidad <= 0){
+            throw new DatosInventarioLocalInvalidosException("La cantidad es obligatoria");
+        }
+        if(tiempoEntrega <= 0){
+            throw new DatosInventarioLocalInvalidosException("El tiempo entrega es obligatoria");
+        }
+
+
         //antes de crear verifico que el id del automotor exista
         try {
             AutomotorDTO automotorDTO = automotorClient.getAutomotor(automotorId);
@@ -44,6 +55,12 @@ public class InventarioLocalServicio implements IInventarioLocalServicio {
             SucursalDTO sucursalDTO = sucursalClient.getSucursal(sucursalId);
         } catch (FeignException.NotFound e) {
             throw new SucursalInexistenteException(sucursalId);
+        }
+
+        //valido por inventario local duplicado
+        InventarioLocal inventarioLocalDuplicado = inventarioLocalDAO.findBySucursalIdAndAutomotorId(sucursalId, automotorId);
+        if(inventarioLocalDuplicado != null){
+            throw new DatosInventarioLocalInvalidosException("Ya existe un inventario local para ese automotor");
         }
 
         InventarioLocal inventarioLocal = new InventarioLocal(sucursalId, automotorId, cantidad, tiempoEntrega);

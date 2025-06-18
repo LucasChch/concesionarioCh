@@ -3,12 +3,11 @@ package ar.com.inventarioservice.business.imp;
 import ar.com.inventarioservice.business.IInventarioCentralServicio;
 import ar.com.inventarioservice.dto.InventarioCentralDTO;
 import ar.com.inventarioservice.dto.integrations.AutomotorDTO;
-import ar.com.inventarioservice.exception.AutomotorInexistenteException;
-import ar.com.inventarioservice.exception.InventarioCentralNoEncontradoException;
-import ar.com.inventarioservice.exception.NoHayStockCentralException;
+import ar.com.inventarioservice.exception.*;
 import ar.com.inventarioservice.integrations.restClient.IAutomotorClient;
 import ar.com.inventarioservice.mapper.InventarioCentralMapper;
 import ar.com.inventarioservice.model.InventarioCentral;
+import ar.com.inventarioservice.model.InventarioLocal;
 import ar.com.inventarioservice.repository.IInventarioCentralDAO;
 import feign.FeignException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +25,23 @@ public class InventarioCentralServicio implements IInventarioCentralServicio {
 
     @Override
     public InventarioCentralDTO crearInventarioCentral(Long automotorId, int cantidad, int tiempoEntrega) {
+
+        if(automotorId == null){
+            throw new DatosInventarioCentralInvalidosException("El automotor es obligatorio");
+        }
+        if(cantidad <= 0){
+            throw new DatosInventarioCentralInvalidosException("La cantidad es obligatoria");
+        }
+        if(tiempoEntrega <= 0){
+            throw new DatosInventarioCentralInvalidosException("El tiempo entrega es obligatoria");
+        }
+
+        //valido duplicado
+        InventarioCentral inventarioCentralDuplicado = inventarioCentralDAO.findByAutomotorId(automotorId);
+        if(inventarioCentralDuplicado != null){
+            throw new DatosInventarioCentralInvalidosException("El inventario para ese automotor ya existe");
+        }
+
 
         //antes de crear verifico que el id del automotor exista
         try {
