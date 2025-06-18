@@ -7,7 +7,7 @@ POST http://localhost:8085/venta
 Content-Type: application/json
 
 {
-  "automotorId": 1,
+  "automotorId": 2,
   "clienteId": 1,
   "empleadoId": 2,
   "sucursalId": 1
@@ -41,8 +41,8 @@ Content-Type: application/json
 
 {
   "sucursalId": 1,
-  "automotorId": 1,
-  "cantidad": 0,
+  "automotorId": 2,
+  "cantidad": 10,
   "tiempoEntrega": 2
 }
 
@@ -109,5 +109,5 @@ Content-Type: application/json
   "direccion": "Kholinar",
   "dni": "1234567",
   "puesto": "Vendedor",
-  "concessionId": 1
+  "sucursalId": 1
 }

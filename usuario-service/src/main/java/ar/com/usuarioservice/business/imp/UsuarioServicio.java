@@ -3,9 +3,7 @@ package ar.com.usuarioservice.business.imp;
 import ar.com.usuarioservice.business.IUsuarioServicio;
 import ar.com.usuarioservice.dto.ClienteDTO;
 import ar.com.usuarioservice.dto.EmpleadoDTO;
-import ar.com.usuarioservice.exception.ClienteNoEncontradoException;
-import ar.com.usuarioservice.exception.EmpleadoNoEncontradoException;
-import ar.com.usuarioservice.exception.TipoUsuarioIncorrectoException;
+import ar.com.usuarioservice.exception.*;
 import ar.com.usuarioservice.mapper.ClienteMapper;
 import ar.com.usuarioservice.mapper.EmpleadoMapper;
 import ar.com.usuarioservice.models.Cliente;
@@ -24,6 +22,28 @@ public class UsuarioServicio implements IUsuarioServicio {
     //MÉTODOS CLIENTE
     @Override
     public ClienteDTO crearCliente(String nombre, String email, String dni, String direccion, String telefono) {
+
+        if (nombre == null || nombre.isEmpty()) {
+            throw new DatosClienteException("El nombre es obligatorio.");
+        }
+        if (email == null || email.isEmpty()) {
+            throw new DatosClienteException("El email es obligatorio.");
+        }
+        if (dni == null || dni.isEmpty()) {
+            throw new DatosClienteException("El dni es obligatorio.");
+        }
+        if (direccion == null || direccion.isEmpty()) {
+            throw new DatosClienteException("El direccion es obligatorio.");
+        }
+        if (telefono == null || telefono.isEmpty()) {
+            throw new DatosClienteException("El telefono es obligatorio.");
+        }
+
+        //valido cliente duplicado por email
+        Usuario usuarioDuplicado = usuarioDAO.findByEmailAndDni(email, dni);
+        if (usuarioDuplicado != null) {
+            throw new DatosClienteException("El usuario ya existe");
+        }
 
         Cliente cliente = new Cliente( nombre, email, dni, direccion, telefono );
         usuarioDAO.save(cliente);
@@ -48,8 +68,31 @@ public class UsuarioServicio implements IUsuarioServicio {
 
     //MÉTODOS EMPLEADO
     @Override
-    public EmpleadoDTO crearEmpleado(String nombre, String email, String dni, String puesto, Long concessionId) {
-        Empleado empleado = new Empleado( nombre, email, dni, puesto, concessionId );
+    public EmpleadoDTO crearEmpleado(String nombre, String email, String dni, String puesto, Long sucursalId) {
+
+        if (nombre == null || nombre.isEmpty()) {
+            throw new DatosEmpleadoException("El nombre es obligatorio.");
+        }
+        if (email == null || email.isEmpty()) {
+            throw new DatosEmpleadoException("El email es obligatorio.");
+        }
+        if (dni == null || dni.isEmpty()) {
+            throw new DatosEmpleadoException("El dni es obligatorio.");
+        }
+        if (puesto == null || puesto.isEmpty()) {
+            throw new DatosEmpleadoException("El puesto es obligatorio.");
+        }
+        if (sucursalId == null || sucursalId < 0) {
+            throw new DatosEmpleadoException("El sucursalId es obligatorio.");
+        }
+
+        //busco por duplicado
+        Usuario usuarioDuplicado = usuarioDAO.findByEmailAndDni(email, dni);
+        if (usuarioDuplicado != null) {
+            throw new DatosEmpleadoException("El usuario ya existe");
+        }
+
+        Empleado empleado = new Empleado( nombre, email, dni, puesto, sucursalId );
         usuarioDAO.save(empleado);
 
         EmpleadoDTO empleadoDTO = EmpleadoMapper.toDTO(empleado);

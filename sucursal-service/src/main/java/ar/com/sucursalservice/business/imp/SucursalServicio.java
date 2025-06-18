@@ -39,6 +39,13 @@ public class SucursalServicio implements ISucursalServicio {
             throw new DatosSucursalInvalidosException("La fecha de apertura no puede ser nula ni futura.");
         }
 
+        //vertifico que no exista otra sucursal en la misma direccion y el mismo pais
+        Sucursal sucursalDuplicado = sucursalDAO.getSucursalByDireccionAndPais(direccion, pais);
+
+        if (sucursalDuplicado != null) {
+            throw  new DatosSucursalInvalidosException("La sucursal ya existe en esa direccion y pais.");
+        }
+
         sucursalDAO.save(sucursal);
 
         SucursalDTO sucursalDTO = SucursalMapper.toDTO(sucursal);

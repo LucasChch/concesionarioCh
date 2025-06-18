@@ -67,8 +67,6 @@ public class TallerServicio implements ITallerServicio {
             throw new TallerDuplicadoException();
         }
 
-
-
         //validaciones
         try {
             cliente = usuarioClient.getCliente(clienteId);

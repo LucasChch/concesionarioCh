@@ -11,7 +11,7 @@ public class EmpleadoMapper {
         dto.setNombre(empelado.getNombre());
         dto.setEmail(empelado.getEmail());
         dto.setDni(empelado.getDni());
-        dto.setConcessionId(empelado.getConcessionId());
+        dto.setSucursalId(empelado.getSucursalId());
         dto.setPuesto(empelado.getPuesto());
         return dto;
     }
@@ -23,7 +23,7 @@ public class EmpleadoMapper {
                 dto.getEmail(),
                 dto.getDni(),
                 dto.getPuesto(),
-                dto.getConcessionId()
+                dto.getSucursalId()
         );
     }
 }

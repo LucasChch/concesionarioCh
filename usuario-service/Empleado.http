@@ -11,5 +11,5 @@ Content-Type: application/json
   "direccion": "Kholinar",
   "dni": "1234567",
   "puesto": "Vendedor",
-  "concessionId": 1
+  "sucursalId": 1
 }

@@ -45,7 +45,7 @@ public class UsuarioController {
                 empleado.getEmail(),
                 empleado.getDni(),
                 empleado.getPuesto(),
-                empleado.getConcessionId()
+                empleado.getSucursalId()
         );
 
         return empleadoCreado;

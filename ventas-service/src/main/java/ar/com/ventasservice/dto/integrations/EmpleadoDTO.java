@@ -6,7 +6,7 @@ public class EmpleadoDTO {
     private String email;
     private String dni;
     private String puesto;
-    private Long concessionId;
+    private Long sucursalId;
 
     //Getters and Setters
     public Long getId() {
@@ -49,11 +49,11 @@ public class EmpleadoDTO {
         this.puesto = puesto;
     }
 
-    public Long getConcessionId() {
-        return concessionId;
+    public Long getSucursalId() {
+        return sucursalId;
     }
 
-    public void setConcessionId(Long concessionId) {
-        this.concessionId = concessionId;
+    public void setSucursalId(Long sucursalId) {
+        this.sucursalId = sucursalId;
     }
 }

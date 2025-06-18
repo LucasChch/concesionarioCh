@@ -7,14 +7,14 @@ import jakarta.persistence.Entity;
 @DiscriminatorValue("EMPLEADO")
 public class Empleado extends Usuario {
     private String puesto;
-    private Long concessionId;  // Concesionaria donde trabaja
+    private Long sucursalId;  // Concesionaria donde trabaja
 
     protected Empleado() {}
 
-    public Empleado(String nombre, String email, String dni, String puesto, Long concessionId){
+    public Empleado(String nombre, String email, String dni, String puesto, Long sucursalId){
         super(nombre, email, dni);
         setPuesto(puesto);
-        setConcessionId(concessionId);
+        setSucursalId(sucursalId);
     }
 
     //Getters and Setters
@@ -26,11 +26,11 @@ public class Empleado extends Usuario {
         this.puesto = puesto;
     }
 
-    public Long getConcessionId() {
-        return concessionId;
+    public Long getSucursalId() {
+        return sucursalId;
     }
 
-    public void setConcessionId(Long concessionId) {
-        this.concessionId = concessionId;
+    public void setSucursalId(Long sucursalId) {
+        this.sucursalId = sucursalId;
     }
 }

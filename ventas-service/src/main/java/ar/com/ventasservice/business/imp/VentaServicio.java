@@ -51,7 +51,29 @@ public class VentaServicio implements IVentaServicio {
         LocalDate fechaEntrega;
         BigDecimal monto;
 
-        //validaciones
+        //obligatorios
+        if (automotorId == null) {
+            throw new DatosVentaException("El automotor es obligatorio.");
+        }
+        if (clienteId == null) {
+            throw new DatosVentaException("El cliente es obligatorio.");
+        }
+        if (sucursalId == null) {
+            throw new DatosVentaException("La sucursal es obligatorio.");
+        }
+        if (empleadoId == null) {
+            throw new DatosVentaException("El empleado es obligatorio.");
+        }
+
+        //validacion de venta duplicada
+        //findByClienteIdAndAutomotorIdAndSucursalId
+
+        Venta tallerDuplicado = ventaDAO.findByClienteIdAndAutomotorIdAndSucursalId(clienteId, automotorId, sucursalId);
+        if (tallerDuplicado != null) {
+            throw new VentaDuplicadaException();
+        }
+
+        //validaciones de existencia con las demás tablas
         try {
             cliente = usuarioClient.getCliente(clienteId);
         } catch (FeignException.NotFound e) {
