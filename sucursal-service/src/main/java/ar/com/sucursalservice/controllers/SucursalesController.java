@@ -6,16 +6,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping("/sucursal")
 public class SucursalesController {
 
     @Autowired
     private ISucursalServicio sucursalServicio;
 
-    @GetMapping("/sucursal/{id}")
+    @GetMapping("/{id}")
     public SucursalDTO getSucursal(@PathVariable Long id) {
         return sucursalServicio.buscarSucursal(id);
     }
-    @PostMapping("/sucursal")
+    @PostMapping()
     public SucursalDTO createSucursal(@RequestBody SucursalDTO sucursal) {
 
         SucursalDTO sucursalCreada = sucursalServicio.crearSucursal(

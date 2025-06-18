@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>ar.com</groupId>
-    <artifactId>vehiculo-service</artifactId>
+    <artifactId>automotor-service</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>vehiculo-service</name>
-    <description>vehiculo-service</description>
+    <name>automotor-service</name>
+    <description>automotor-service</description>
     <url/>
     <licenses>
         <license/>

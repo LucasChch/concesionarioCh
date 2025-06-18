@@ -1,13 +1,13 @@
-package ar.com.vehiculoservice;
+package ar.com.automotorservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class VehiculoServiceApplication {
+public class AutomotorServiceApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(VehiculoServiceApplication.class, args);
+        SpringApplication.run(AutomotorServiceApplication.class, args);
     }
 
 }
