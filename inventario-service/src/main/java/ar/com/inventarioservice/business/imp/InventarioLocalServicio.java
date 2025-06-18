@@ -3,11 +3,10 @@ package ar.com.inventarioservice.business.imp;
 import ar.com.inventarioservice.business.IInventarioLocalServicio;
 import ar.com.inventarioservice.dto.InventarioLocalDTO;
 import ar.com.inventarioservice.dto.integrations.AutomotorDTO;
-import ar.com.inventarioservice.exception.AutomotorInexistenteException;
-import ar.com.inventarioservice.exception.InventarioCentralNoEncontradoException;
-import ar.com.inventarioservice.exception.InventarioLocalNoEncontradoException;
-import ar.com.inventarioservice.exception.NoHayStockCentralException;
+import ar.com.inventarioservice.dto.integrations.SucursalDTO;
+import ar.com.inventarioservice.exception.*;
 import ar.com.inventarioservice.integrations.restClient.IAutomotorClient;
+import ar.com.inventarioservice.integrations.restClient.ISucursalClient;
 import ar.com.inventarioservice.mapper.InventarioLocalMapper;
 import ar.com.inventarioservice.model.InventarioCentral;
 import ar.com.inventarioservice.model.InventarioLocal;
@@ -21,11 +20,14 @@ import java.time.LocalDate;
 @Service
 public class InventarioLocalServicio implements IInventarioLocalServicio {
 
-   @Autowired
-   IInventarioLocalDAO inventarioLocalDAO;
+    @Autowired
+    IInventarioLocalDAO inventarioLocalDAO;
 
-   @Autowired
+    @Autowired
     IAutomotorClient automotorClient;
+
+    @Autowired
+    ISucursalClient sucursalClient;
 
     @Override
     public InventarioLocalDTO crearInventarioLocal(Long sucursalId, Long automotorId, int cantidad, int tiempoEntrega) {
@@ -35,6 +37,13 @@ public class InventarioLocalServicio implements IInventarioLocalServicio {
             AutomotorDTO automotorDTO = automotorClient.getAutomotor(automotorId);
         } catch (FeignException.NotFound e) {
             throw new AutomotorInexistenteException(automotorId);
+        }
+
+        //tambien verifico que exista la sucursal
+        try {
+            SucursalDTO sucursalDTO = sucursalClient.getSucursal(sucursalId);
+        } catch (FeignException.NotFound e) {
+            throw new SucursalInexistenteException(sucursalId);
         }
 
         InventarioLocal inventarioLocal = new InventarioLocal(sucursalId, automotorId, cantidad, tiempoEntrega);
