@@ -10,7 +10,7 @@ Content-Type: application/json
 
 {
   "sucursalId": 1,
-  "automotorId": 4,
+  "automotorId": 1,
   "cantidad": 3,
   "tiempoEntrega": 2
 }

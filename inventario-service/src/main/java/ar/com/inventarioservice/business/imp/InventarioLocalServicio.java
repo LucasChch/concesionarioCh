@@ -2,13 +2,17 @@ package ar.com.inventarioservice.business.imp;
 
 import ar.com.inventarioservice.business.IInventarioLocalServicio;
 import ar.com.inventarioservice.dto.InventarioLocalDTO;
+import ar.com.inventarioservice.dto.integrations.AutomotorDTO;
+import ar.com.inventarioservice.exception.AutomotorInexistenteException;
 import ar.com.inventarioservice.exception.InventarioCentralNoEncontradoException;
 import ar.com.inventarioservice.exception.InventarioLocalNoEncontradoException;
 import ar.com.inventarioservice.exception.NoHayStockCentralException;
+import ar.com.inventarioservice.integrations.restClient.IAutomotorClient;
 import ar.com.inventarioservice.mapper.InventarioLocalMapper;
 import ar.com.inventarioservice.model.InventarioCentral;
 import ar.com.inventarioservice.model.InventarioLocal;
 import ar.com.inventarioservice.repository.IInventarioLocalDAO;
+import feign.FeignException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,8 +24,19 @@ public class InventarioLocalServicio implements IInventarioLocalServicio {
    @Autowired
    IInventarioLocalDAO inventarioLocalDAO;
 
+   @Autowired
+    IAutomotorClient automotorClient;
+
     @Override
     public InventarioLocalDTO crearInventarioLocal(Long sucursalId, Long automotorId, int cantidad, int tiempoEntrega) {
+
+        //antes de crear verifico que el id del automotor exista
+        try {
+            AutomotorDTO automotorDTO = automotorClient.getAutomotor(automotorId);
+        } catch (FeignException.NotFound e) {
+            throw new AutomotorInexistenteException(automotorId);
+        }
+
         InventarioLocal inventarioLocal = new InventarioLocal(sucursalId, automotorId, cantidad, tiempoEntrega);
         inventarioLocalDAO.save(inventarioLocal);
 

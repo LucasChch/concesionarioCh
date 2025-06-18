@@ -9,7 +9,7 @@ POST http://localhost:8080/inventario-central
 Content-Type: application/json
 
 {
-  "automotorId": 4,
+  "automotorId": 1,
   "cantidad": 3,
   "tiempoEntrega": 2
 }
