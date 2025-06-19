@@ -3,13 +3,16 @@ package ar.com.usuarioservice.business.imp;
 import ar.com.usuarioservice.business.IUsuarioServicio;
 import ar.com.usuarioservice.dto.ClienteDTO;
 import ar.com.usuarioservice.dto.EmpleadoDTO;
+import ar.com.usuarioservice.dto.integrations.SucursalDTO;
 import ar.com.usuarioservice.exception.*;
+import ar.com.usuarioservice.integrations.restClient.ISucursalClient;
 import ar.com.usuarioservice.mapper.ClienteMapper;
 import ar.com.usuarioservice.mapper.EmpleadoMapper;
 import ar.com.usuarioservice.models.Cliente;
 import ar.com.usuarioservice.models.Empleado;
 import ar.com.usuarioservice.models.Usuario;
 import ar.com.usuarioservice.repository.IUsuarioDAO;
+import feign.FeignException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +21,9 @@ public class UsuarioServicio implements IUsuarioServicio {
 
     @Autowired
     private IUsuarioDAO usuarioDAO;
+
+    @Autowired
+    private ISucursalClient sucursalClient;
 
     //MÉTODOS CLIENTE
     @Override
@@ -90,6 +96,13 @@ public class UsuarioServicio implements IUsuarioServicio {
         Usuario usuarioDuplicado = usuarioDAO.findByEmailAndDni(email, dni);
         if (usuarioDuplicado != null) {
             throw new DatosEmpleadoException("El usuario ya existe");
+        }
+
+        //valido que exista la sucursal a la cual quiero crear el usuaroi
+        try {
+            SucursalDTO sucursal = sucursalClient.getSucursal(sucursalId);
+        } catch (FeignException.NotFound e) {
+            throw new SucursalNoEncontradaException(sucursalId);
         }
 
         Empleado empleado = new Empleado( nombre, email, dni, puesto, sucursalId );
